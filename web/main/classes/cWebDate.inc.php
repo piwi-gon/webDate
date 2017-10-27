@@ -165,12 +165,12 @@ class cWebDate {
         $this->_relateMessageToRecipient($insertId, $recipientId);
     }
 
-    public function addRecipient($name, $address) {
-        $result = $this->_checkAddress($address);
+    public function addRecipient($VAR) {
+        $result = $this->_checkAddress($VAR['emailRecipientAddress']);
         if ($result == 0) {
             // @formatter:off
             $insert = "insert into t_recipient (recipient_name, recipient_address) " .
-                      "VALUES('" . $this->_escapeString($name) . "', '" . $this->_escapeString($address) . "')";
+                      "VALUES('" . $this->_escapeString($VAR['emailRecipientName']) . "', '" . $this->_escapeString($VAR['emailRecipientAddress']) . "')";
             // @formatter:on
             if (isset($this->_soapParams)) {
                 unset($this->_soapParams);
@@ -181,6 +181,33 @@ class cWebDate {
             return $insertId = $this->_doCallInsertId();
         }
         return $result;
+    }
+
+    public function checkLoginData($userName, $userPass) {
+        // @formatter:off
+        $select = "select fk_recipient_id from t_login as a ".
+                  "where login_name = '" . $this->_escapeString($userName) . "' ".
+                  "and login_pass = '" . $this->_escapeString($loginPass) . "'";
+        // @formatter:on
+        $this->_soapParams[] = new SoapParam($query, "sql");
+        $retArray = $this->_doCall();
+        return (intval($retArray['fk_recipient_id'])>0 ? intval($retArray['fk_recipient_id']) : false);
+    }
+
+    public function addLoginData($VAR) {
+        $result = $this->_checkLoginName($VAR['emailRecipientUser']);
+        if($result == 0) {
+            // @formatter:off
+            $insert = "insert into t_login (login_name, login_pass, full_name) " .
+                    "VALUES('".$this->_escapeString($VAR['emailRecipientUser'])."', '" . $this->_escapeString($VAR['emailRecipientPass']) . "', '" . $this->_escapeString($VAR['emailRecipientName']) . "')";
+            // @formatter:on
+            if (isset($this->_soapParams)) {
+                unset($this->_soapParams);
+            }
+            error_log("SQL: " . $sql . "\n", 3, "/tmp/sqlWebDate.log");
+            $this->_soapParams[] = new SoapParam($insert, "sql");
+            $this->_doCall();
+        }
     }
 
     private function _insertEntry($VAR) {
@@ -236,6 +263,19 @@ class cWebDate {
         $this->_soapParams[] = new SoapParam($select, "sql");
         $retArray = $this->_doCall();
         return intval($retArray[0]['recipient_id']);
+    }
+
+    private function _checkLoginName($userName) {
+        // @formatter:off
+        $select = "select login_id from t_login " .
+                "where login_name = '" . $this->_escapeString($userName) . "'";
+        // @formatter:on
+        if (isset($this->_soapParams)) {
+            unset($this->_soapParams);
+        }
+        $this->_soapParams[] = new SoapParam($select, "sql");
+        $retArray = $this->_doCall();
+        return intval($retArray[0]['login_id']);
     }
 
     private function _relateMessageToRecipient($insertId, $recipientId) {

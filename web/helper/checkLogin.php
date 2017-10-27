@@ -30,5 +30,16 @@ if($_POST['loginName'] == "rolf") {
         echo "success";
         exit;
     }
+} else {
+    @define("DS", DIRECTORY_SEPARATOR);
+    require_once(dirname(__FILE__).DS."..".DS."main".DS."baseStart.inc.php");
+    $loginResult = $oWebDate->checkLogin($_POST['loginName'], $_POST['loginPass']);
+    if(intval($loginResult) > 0) {
+        $_SESSION['AUTH'] = true;
+        $_SESSION['RELATED_EMAIL_ID'] = intval($loginResult);
+        echo "success";
+        exit;
+    }
 }
 echo "failed";
+exit;
