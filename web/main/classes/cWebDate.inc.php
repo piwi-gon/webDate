@@ -125,7 +125,11 @@ class cWebDate {
         }
         $this->_soapParams[] = new SoapParam($sql, "sql");
         $retArray = $this->_doCall();
-        return $retArray;
+        foreach($retArray as $row) {
+            $row['recipient_name'] = preg_replace("/<.*?>/", "", $row['recipient_name']);
+            $return[] = $row;
+        }
+        return $return;
     }
 
     public function queryRecipient($recipientId) {

@@ -12,7 +12,9 @@
  *
  */
 
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 error_reporting(E_ALL&~E_NOTICE);
 @define("DS", DIRECTORY_SEPARATOR);
 require_once(dirname(__FILE__).DS."classes".DS."cWebDate.inc.php");

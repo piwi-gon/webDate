@@ -44,7 +44,7 @@ function addEntry(selectedEntry) {
 }
 
 function configuration() {
-    openMainDialog("helper/configurationMain.php", getABSWidth(80), getABSHeight(60));
+    openMainDialog("helper/configurationMain.php", getABSWidth(80), getABSHeight(60), 'administrationId', true);
 }
 </script>
 <div class="table" style="width:99%;margin:0 auto;">
