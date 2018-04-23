@@ -17,6 +17,8 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 error_reporting(E_ALL&~E_NOTICE);
 @define("DS", DIRECTORY_SEPARATOR);
+require_once(dirname(__FILE__).DS."classes".DS."mysql.inc.php");
+$oSQL = new cMySQLi();
 require_once(dirname(__FILE__).DS."classes".DS."cWebDate.inc.php");
 $oWebDate = new cWebDate();
 

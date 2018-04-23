@@ -20,17 +20,18 @@ function clearScheduleData() {
 function saveScheduleData() {
     var formData = $('input,textarea,select').serialize();
     $.ajax({
-        url: "help/saveScheduleData.php",
+        url: "helper/saveScheduleData.php",
         type: "POST",
         data: formData,
         success: function(data) {
+            console.log(data);
             $('#resultScheduleSavingId').html('gespeichert');
             window.setTimeout(function() { $('#dialog').dialog('close').remove(); }, 3000);
         }
     });
 }
 $(document).ready(function() {
-    $('#scheduleDateId').datepicker({autoOpen: false});
+    $('#scheduleDateId').datepicker({autoOpen: false, dateFormat: 'dd.mm.yy'});
 });
 
 function openRecipientChooser() {
@@ -55,7 +56,10 @@ function openRecipientChooser() {
         <div class="tcell ui-widget-content" style="width:60%;">
             <div class="table" style="width:100%;">
                 <div class="trow">
-                    <div class="tcell h40 f12" style="width:70%;"><div id="recipientId"></div></div>
+                    <div class="tcell h40 f12" style="width:70%;">
+                        <div id="recipientId"></div>
+                        <input type="hidden" name="selectedRecipientId" id="selectedRecipientIdId">
+                    </div>
                     <div class="tcell h40 f12" style="width:30%;"><button onClick="openRecipientChooser();">...</button></div>
                 </div>
             </div>

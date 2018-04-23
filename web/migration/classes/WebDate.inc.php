@@ -29,7 +29,7 @@ class WebDate {
     public function __construct() {
         global $oSQL;
         $this->_sqlObj = $oSQL;
-        $this->_endPoint = "https://www.wondernet24.de/webdate/service/server.php";
+        $this->_endPoint = "http://www.wondernet24.de/webdate/service/server.php";
     }
 
     public function truncateOldData() {

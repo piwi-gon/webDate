@@ -26,8 +26,6 @@ $(document).ready(function() {
 </script>
 <?php
 }
-//print_r($_SESSION);
-//exit;
 if($_GET['selectedMonth'] == "") {
 ?>
 <script>
@@ -47,7 +45,7 @@ function configuration() {
     openMainDialog("helper/configurationMain.php", getABSWidth(80), getABSHeight(60), 'administrationId', true);
 }
 </script>
-<div class="table" style="width:99%;margin:0 auto;">
+<div class="table" style="width:60%;margin:0 auto;">
     <div class="trow">
         <div class="tcell ui-widget-header h40 f12b" style="padding-left:10px;width:25%;">
 <?php
@@ -83,7 +81,7 @@ foreach(array_keys($months) as $month) {
 ?>
     </div>
 </div>
-<div style="width:70%;margin:0 auto;height:400px;overflow:auto;">
+<div style="width:90%;margin:0 auto;height:400px;overflow:auto;">
     <div class="table" style="width:100%;">
         <div class="trow">
             <div class="tcell ui-widget-content" id="scheduleListId"></div>
@@ -92,8 +90,7 @@ foreach(array_keys($months) as $month) {
 </div>
 <?php
 } else {
-    // $oWebDate->correct();
-    $data = $oWebDate->queryAllData(1, $_GET['selectedMonth']);
+    $data = $oWebDate->queryAllData($_SESSION['RELATED_EMAIL_ID'], $_GET['selectedMonth']);
 ?>
 <div style="width:99%;margin:0 auto;">
     <div class="table" style="width:100%;">

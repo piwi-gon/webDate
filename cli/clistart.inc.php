@@ -12,34 +12,16 @@
  *
  */
 
-// function checkInstallation() {
-//     global $DBName, $mysqlObj;
-//     if(!checkIfTableExists("Recipients", $DBName)) {
-//         if(!is_object($mysqlObj)) { connectToMySQL(); }
-//         if(!is_object($mysqlObj)) { echo "Sorry - not SQL-Object could be initialised"; exit(); }
-//         $sql = "CREATE TABLE IF NOT EXISTS Recipients(Recipients_id int auto_increment primary key, recipient_name VARCHAR(200) DEFAULT '' NOT NULL, recpient_address VARCHAR(255) DEFAULT '' NOT NULL)";
-//         if(!$result = $mysqlObj->query($sql)) {
-//             echo "<pre>";
-//             echo "Sorry, the website is experiencing problems.";
-//             echo "Error: Our query failed to execute and here is why: \n";
-//             echo "Query: " . $sql . "\n";
-//             echo "Errno: " . $mysqli->errno . "\n";
-//             echo "Error: " . $mysqli->error . "\n";
-//             echo "</pre>";
-//             exit;
-//         }
-//     }
-// }
 
-// function checkIfTableExists($TableName, $DBName) {
-//     global $mysqlObj;
-//     if(!is_object($mysqlObj)) { connectToMySQL(); }
-//     if(!is_object($mysqlObj)) { echo "Sorry - not SQL-Object could be initialised"; exit(); }
-//     $sql = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '".$DBName."' AND TABLE_NAME = '".$TableName."'";
-//     $result = $mysqlObj->query($sql);
-//     return mysqli_num_rows($result)>0 ? true : false;
-// }
+error_reporting(E_ALL&~E_NOTICE);
+@define("DS", DIRECTORY_SEPARATOR);
+require_once(dirname(__FILE__).DS."..".DS."main".DS."classes".DS."mysql.inc.php");
+$oSQL = new cMySQLi();
+require_once(dirname(__FILE__).DS."..".DS."main".DS."classes".DS."cWebDate.inc.php");
+$oWebDate = new cWebDate();
 
+@define(DEBUG, true);
+/*
 class cWebDateSOAP {
 
     private $_sqlObj;
@@ -114,3 +96,4 @@ class cWebDateSOAP {
         $this->_additionalHeader = new SoapHeader("urn:testapi", "Authenticate", $authVal, false);
     }
 }
+*/

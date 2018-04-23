@@ -12,4 +12,8 @@
  *
  */
 
-echo "1|Rolf Herrmann";
+session_start();
+@define("DS", DIRECTORY_SEPARATOR);
+require_once(dirname(__FILE__).DS."..".DS."main".DS."baseStart.inc.php");
+$rec = $oWebDate->queryRecipient($_GET['selectedRecipientId']);
+echo $rec['recipient_id'] . "|".$rec['recipient_name'];

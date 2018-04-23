@@ -17,12 +17,9 @@ $installDir = dirname(__FILE__);
 
 require_once($installDir . DS . "clistart.inc.php");
 
-$mysqlObj=null;
-
-$SOAPObj = new cWebDateSOAP();
-$recipients = $SOAPObj->queryRecipients();
+$recipients = $oWebdate->queryRecipients();
 foreach($recipients as $rec) {
-    $data = $SOAPObj->queryCalendarData($rec['recipient_id']);
+    $data = $oWebdate->queryCalendarData($rec['recipient_id']);
     if(count($data)>0) {
         foreach($data as $row) {
             $additionalHeader = "From: WebdateV2.0 <webdate@wondernet24.de>";
