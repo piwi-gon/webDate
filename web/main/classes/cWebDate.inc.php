@@ -74,8 +74,8 @@ class cWebDate {
         return $result;
     }
 
-    public function queryAllData($loginId, $month = "") {
-        $recipientId = $this->queryRecipientByLoginId($loginId);
+    public function queryAllData($recipientId, $month = "") {
+        // $recipientId = $this->queryRecipientByLoginId($loginId);
         // @formatter:off
         $sql = "select * from t_schedule as a " .
                "left join r_schedule_recipient as b on a.schedule_id = b.fk_schedule_id " .
@@ -178,14 +178,24 @@ class cWebDate {
         if ($result == 0) {
             // @formatter:off
             $insert = "insert into t_recipient (recipient_name, recipient_address) " .
-                      "VALUES('" . $this->_escapeString($VAR['emailRecipientName']) . "', '" . $this->_escapeString($VAR['emailRecipientAddress']) . "')";
+                    "VALUES('" . $this->_escapeString($VAR['emailRecipientName']) . "', '" . $this->_escapeString($VAR['emailRecipientAddress']) . "')";
             // @formatter:on
             $this->_sqlObj->makeConn("main");
             $this->_sqlObj->makeQuery($insert);
             $insertId = $this->_sqlObj->insertId();
             return $insertId;
+        } else {
+            // @formatter:off
+            $update = "update t_recipient " .
+                      "set recipient_name = '" . $this->_escapeString($VAR['emailRecipientName']) . "', ".
+                      "recipient_address = '" . $this->_escapeString($VAR['emailRecipientAddress']) . "' ".
+                      "where recipient_id = '" . $result . "'";
+            // @formatter:on
+            $this->_sqlObj->makeConn("main");
+            $this->_sqlObj->makeQuery($update);
+            return $result;
         }
-        return $result;
+        return null;
     }
 
     public function checkAdminRights($loginResult) {
@@ -215,8 +225,31 @@ class cWebDate {
         $result = $this->_checkLoginName($VAR['emailRecipientUser']);
         if($result == 0) {
             // @formatter:off
-            $insert = "insert into t_login (login_name, login_pass, full_name) " .
-                    "VALUES('".$this->_escapeString($VAR['emailRecipientUser'])."', '" . $this->_escapeString($VAR['emailRecipientPass']) . "', '" . $this->_escapeString($VAR['emailRecipientName']) . "')";
+            $insert = "insert into t_login (login_name, login_pass, full_name, fk_recipient_id) " .
+                    "VALUES('".$this->_escapeString($VAR['emailRecipientUser'])."', '" . $this->_escapeString($VAR['emailRecipientPass']) . "', '" . $this->_escapeString($VAR['emailRecipientName']) . "', ".$VAR['recipient_id'].")";
+            // @formatter:on
+            $this->_sqlObj->makeConn("main");
+            $this->_sqlObj->makeQuery($insert);
+        } else {
+            // @formatter:off
+            $update = "update t_login ".
+                      "set login_name = '".$this->_escapeString($VAR['emailRecipientUser'])."', ".
+                      "login_pass = '" . $this->_escapeString($VAR['emailRecipientPass']) . "', ".
+                      "full_name = '" . $this->_escapeString($VAR['emailRecipientName']) . "', ".
+                      "fk_recipient_id = ".$VAR['recipient_id']." ".
+                      "where login_id = '" . $result . "'";
+            // @formatter:on
+            $this->_sqlObj->makeConn("main");
+            $this->_sqlObj->makeQuery($update);
+        }
+    }
+
+    public function addAdminData($VAR) {
+        $result = $this->_checkLoginName($VAR['emailRecipientUser']);
+        if($result == 0) {
+            // @formatter:off
+            $insert = "insert into t_login (login_name, login_pass, full_name, fk_recipient_id, is_admin) " .
+                    "VALUES('".$this->_escapeString($VAR['emailRecipientUser'])."', '" . $this->_escapeString($VAR['emailRecipientPass']) . "', '" . $this->_escapeString($VAR['emailRecipientName']) . "', null, 1)";
             // @formatter:on
             $this->_sqlObj->makeConn("main");
             $this->_sqlObj->makeQuery($insert);

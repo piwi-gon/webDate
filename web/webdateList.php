@@ -33,8 +33,8 @@ function loadAllData(selectedMonth) {
     $('#scheduleListId').html('');
     $('#scheduleListId').load('webdateList.php?selectedMonth='+selectedMonth);
 }
-function openEditDialog(selectedEntry) {
-    openMainDialog("helper/modSchedule.php?selectedEntry="+selectedEntry, getABSWidth(50), getABSHeight(55));
+function openEditDialog(selectedEntry, selectedMonth) {
+    openMainDialog("helper/modSchedule.php?selectedEntry="+selectedEntry+"&selectedMonth="+selectedMonth, getABSWidth(50), getABSHeight(55));
 }
 
 function addEntry(selectedEntry) {
@@ -99,7 +99,13 @@ foreach(array_keys($months) as $month) {
                 <div class="table" style="width:100%;">
                     <div class="trow">
                         <div class="tcell" style="width:40%;text-align:center;">
+<?php
+    if(!$_SESSION['ADMIN']) {
+?>
                             <button onClick="addEntry();" title="Neuer Eintrag"><img src="images/gfx/page_white.png"></button>
+<?php
+    }
+?>
                         </div>
                         <div class="tcell" style="width:60%;text-align:center;">
                             LfdNr
@@ -117,13 +123,13 @@ foreach(array_keys($months) as $month) {
 <div style="width:99%;margin:0 auto;height:340px;overflow:auto;">
     <div class="table" style="width:100%;">
 <?php
-$i = 0;
+    $i = 0;
     if(count($data)>0) {
         if(is_array($data)) {
             foreach($data as $row){
                 $i++;
 ?>
-        <div class="trow ui-content ui-hover" onClick="openEditDialog('<?php echo $row['schedule_id']; ?>');">
+        <div class="trow ui-content ui-hover" onClick="openEditDialog('<?php echo $row['schedule_id']; ?>', '<?php echo $_GET['selectedMonth']; ?>');">
             <div class="tcell ui-content ui-hover h40 f12" style="padding-left:10px;width:10%;"><?php echo sprintf("%02d", $i); ?></div>
             <div class="tcell ui-content ui-hover h40 f12" style="padding-left:10px;width:10%;"><?php echo $row['day']; ?></div>
             <div class="tcell ui-content ui-hover h40 f12" style="padding-left:10px;width:10%;"><?php echo (intval($row['single_message']) == 0 ? "Ja" : "Nein"); ?></div>

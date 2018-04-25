@@ -27,7 +27,6 @@ function clearRecipientData() {
 
 function saveRecipientData() {
     var formData = $('input').serialize();
-    /*
     $.ajax({
         url: "helper/saveEMailRecipientData.inc.php",
         type: 'POST',
@@ -41,9 +40,50 @@ function saveRecipientData() {
             }
         }
     });
-    */
 }
 </script>
+<div class="table" style="width:99%;margin:0 auto;">
+    <div class="trow">
+        <div class="tcell ui-widget-content h40 f12b" style="width:40%;">
+            Name des Empf&auml;ngers
+        </div>
+        <div class="tcell ui-widget-content h40 f12b" style="width:60%;">
+            <input type="text" name="emailRecipientName" id="emailRecipientNameId" maxlength="200" value="<?php echo $data[0]['']; ?>">
+        </div>
+    </div>
+    <div class="trow">
+        <div class="tcell ui-widget-content h40 f12b" style="width:40%;">
+            Adresse
+        </div>
+        <div class="tcell ui-widget-content h40 f12b" style="width:60%;">
+            <input type="text" name="emailRecipientAddress" id="emailRecipientAddressId" maxlength="200" value="<?php echo $data[0]['']; ?>">
+        </div>
+    </div>
+    <div class="trow">
+        <div class="tcell ui-widget-content h40 f12b" style="width:40%;">
+            Login
+        </div>
+        <div class="tcell ui-widget-content h40 f12b" style="width:60%;">
+            <input type="text" name="emailRecipientUser" id="emailRecipientUserId" maxlength="20" value="<?php echo $data[0]['']; ?>">
+        </div>
+    </div>
+    <div class="trow">
+        <div class="tcell ui-widget-content h40 f12b" style="width:40%;">
+            Passwort
+        </div>
+        <div class="tcell ui-widget-content h40 f12b" style="width:60%;">
+            <input type="text" name="emailRecipientPass" id="emailRecipientPassId" maxlength="60">
+        </div>
+    </div>
+    <div class="trow">
+        <div class="tcell ui-widget-content h40 f12b" style="width:40%;">
+            Passwort (Wh.)
+        </div>
+        <div class="tcell ui-widget-content h40 f12b" style="width:60%;">
+            <input type="text" name="emailRecipientPassWH" id="emailRecipientPassWHId" maxlength="60">
+        </div>
+    </div>
+</div>
 <div class="table" style="width:99%;margin:0 auto;">
     <div class="trow">
         <div class="tcell ui-widget-header h40 f12b" style="width:50%;text-align:left;padding-left:5px;">
@@ -55,4 +95,3 @@ function saveRecipientData() {
         </div>
     </div>
 </div>
-    

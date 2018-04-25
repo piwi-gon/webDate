@@ -12,8 +12,23 @@
  *
  */
 
+session_start();
+@define("DS", DIRECTORY_SEPARATOR);
+require_once (dirname(__FILE__) . DS . ".." . DS . "main" . DS . "baseStart.inc.php");
 ?>
 <script>
+$(document).ready(function() {
+    $.ajax({
+        url: "helper/readRecipientById.inc.php?selectedRecipientId=<?php echo $_SESSION['RELATED_EMAIL_ID']; ?>",
+        type: 'POST',
+        success: function(data) {
+            console.log(data);
+            var tokens = data.split("|");
+            $('#recipientId').html(tokens[1]);
+            $('#selectedRecipientId').val(tokens[0]);
+        }
+    });
+});
 function clearScheduleData() {
     $('#dialog').dialog('close').remove();
 }
@@ -46,27 +61,26 @@ function openRecipientChooser() {
 </div>
 <div class="table" style="width:99%;margin:0 auto;">
     <div class="trow">
+        <div class="tcell ui-widget-content h40 f12" style="width:40%;">Empf&auml;nger</div>
+        <div class="tcell ui-widget-content" style="width:60%;">
+            <div class="table" style="width:100%;">
+                <div class="trow">
+                    <div class="tcell h40 f12" style="width:100%;">
+                        <div id="recipientId"></div>
+                        <input type="hidden" name="selectedRecipientId" id="selectedRecipientIdId">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="trow">
         <div class="tcell ui-widget-content h40 f12" style="width:40%;">Datum des Termins</div>
         <div class="tcell ui-widget-content h40 f12" style="width:60%;">
             <input type="text" name="scheduleDate" id="scheduleDateId">
         </div>
     </div>
     <div class="trow">
-        <div class="tcell ui-widget-content h40 f12" style="width:40%;">Empf&auml;nger</div>
-        <div class="tcell ui-widget-content" style="width:60%;">
-            <div class="table" style="width:100%;">
-                <div class="trow">
-                    <div class="tcell h40 f12" style="width:70%;">
-                        <div id="recipientId"></div>
-                        <input type="hidden" name="selectedRecipientId" id="selectedRecipientIdId">
-                    </div>
-                    <div class="tcell h40 f12" style="width:30%;"><button onClick="openRecipientChooser();">...</button></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="trow">
-        <div class="tcell ui-widget-content f12" style="width:40%;">Text</div>
+        <div class="tcell ui-widget-content f12" style="width:40%;align:center;vertical-align:middle;">Text</div>
         <div class="tcell ui-widget-content f12" style="width:60%;">
             <textarea name="scheduleMessage" id="scheduleMessageId" style="width:99%;height:120px;"></textarea>
         </div>

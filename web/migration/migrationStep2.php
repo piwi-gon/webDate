@@ -22,10 +22,12 @@ $oWebDateMig = new WebDateMigration();
 $oWebDate = new cWebDate();
 $data = $oWebDateMig->queryAllData();
 $month= ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
-// $oWebDate->truncateOldData();
 echo "<pre>";
+echo "try to add admin\n";
+$oWebDate->addAdminData(array("emailRecipientUser"=>"admin", "emailRecipientPass"=>"Ws57Adu9", "emailRecipientName"=>"Administrator"));
 echo "try to add recipient: 'info@wondernet24.de'\n";
 $recipientId = $oWebDate->addRecipient(array("emailRecipientAddress"=>"info@wondernet24.de", "emailRecipientName"=>"Rolf Herrmann"));
+$oWebDate->addLoginData(array("emailRecipientUser"=>"rolf", "emailRecipientPass"=>"supermann!55", "emailRecipientName"=>"Rolf Herrmann", "recipient_id"=>"'" . $recipientId . "'"));
 if($recipientId > 0) {
     foreach($month as $mon) {
         $data = $oWebDateMig->queryAllData($mon);
@@ -34,8 +36,9 @@ if($recipientId > 0) {
             $oWebDate->addScheduleEntry($row['Nachricht'], $row['Tag'], $row['Monat'], $row['Jahr'], $recipientId);
         }
     }
+    echo "\nsuccess\n";
     echo "</pre>";
-    echo "success";
 }
 echo "failed";
+echo "</pre>";
 ?>

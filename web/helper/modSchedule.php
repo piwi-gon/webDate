@@ -45,6 +45,11 @@ function saveScheduleData() {
     });
 }
 function deleteScheduleData() {
+    confirm('Wollen Sie den Termin wirklich l&ouml;schen?', 'YES|NO',
+         function() { _deleteScheduleEntry(); });
+}
+
+function _deleteScheduleEntry() {
     $('#deleteEntryId').val('true');
     var formData = $('input,textarea,select').serialize();
     $.ajax({
@@ -53,18 +58,18 @@ function deleteScheduleData() {
         data: formData,
         success: function(data) {
             $('#resultScheduleSavingId').html('gespeichert');
-            setTimeout(function() { clearScheduleData();}, 4000);
+            setTimeout(function() { clearScheduleData();
+                $('#scheduleListId').html('');
+                $('#scheduleListId').load('webdateList.php?selectedMonth=<?php echo $_GET['selectedMonth']; ?>');
+            }, 4000);
         }
     });
 }
-
 function openRecipientChooser() {
     openAdditionalDialog("recipientChooserDialogId", "helper/emailRecipientChooser.inc.php", 300, 400);
 }
 </script>
-<input type="hidden" name="selectedScheduleEntry"
-    id="selectedScheduleEntryId"
-    value="<?php echo $entry['schedule_id']; ?>">
+<input type="hidden" name="selectedScheduleEntry" id="selectedScheduleEntryId" value="<?php echo $entry['schedule_id']; ?>">
 <input type="hidden" name="deleteEntry" id="deleteEntryId" value="false">
 <div class="table" style="width: 99%; margin: 0 auto;">
     <div class="trow">
@@ -78,11 +83,8 @@ function openRecipientChooser() {
         <div class="tcell ui-widget-content" style="width: 75%;">
             <div class="table" style="width: 100%;">
                 <div class="trow">
-                    <div class="tcell h40 f12" style="width: 70%;">
+                    <div class="tcell h40 f12" style="width: 100%;">
                         <div id="recipientId"><?php echo $entry['recipient_name']; ?></div>
-                    </div>
-                    <div class="tcell h40 f12" style="width: 30%;">
-                        <button onClick="openRecipientChooser();">...</button>
                     </div>
                 </div>
             </div>
