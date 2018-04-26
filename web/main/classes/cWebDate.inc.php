@@ -14,13 +14,6 @@
 class cWebDate {
 
     private $_sqlObj;
-/*
-    private $_soapParams;
-    private $_endPoint;
-    private $_soapClient;
-    private $_SOAPAction;
-    private $_additionalHeader;
-*/
 
     public function __construct() {
         global $oSQL;
@@ -198,6 +191,18 @@ class cWebDate {
         return null;
     }
 
+    public function changeRecipientAddress($VAR) {
+        // @formatter:off
+        $update = "update t_recipient " .
+                  "set recipient_name = '" . $this->_escapeString($VAR['newEMailName']) . "', ".
+                  "recipient_address = '" . $this->_escapeString($VAR['newEMailAddress']) . "' ".
+                  "where recipient_id = '" . $VAR['recipientId'] . "'";
+        // @formatter:on
+        $this->_sqlObj->makeConn("main");
+        $this->_sqlObj->makeQuery($update);
+        return 1;
+    }
+
     public function checkAdminRights($loginResult) {
         // @formatter:off
         $select = "select * from t_login as a ".
@@ -219,6 +224,20 @@ class cWebDate {
             return (intval($result[0]['login_id'])>0 ? intval($result[0]['login_id']) : false);
         }
         return false;
+    }
+
+    public function changeLoginPassword($LOGINID, $VAR) {
+        // @formatter:off
+        $select = "select * from t_login where login_id = '" . $LOGINID . "'";
+        // @formatter:on
+        $this->_sqlObj->makeConn("main");
+        $result = $this->_sqlObj->makeQuery($select);
+        if($result[0]['login_pass'] == $VAR['currentPassword']) {
+            $this->_updateLoginpassword($LOGINID, $VAR['newPassword']);
+            return "success";
+        } else {
+            return "Falsches Passwort";
+        }
     }
 
     public function addLoginData($VAR) {
@@ -281,7 +300,7 @@ class cWebDate {
             $dateTokens = explode("-", $VAR['scheduleDateISO']);
             // @formatter:off
             $query = "update t_schedule " .
-                    "set day = '" . $this->_escapeString($dateTokens[2]) . "', " .
+                     "set day = '" . $this->_escapeString($dateTokens[2]) . "', " .
                      "month = '" . $this->_escapeString($dateTokens[1]) . "', " .
                      "year = '" . $this->_escapeString($dateTokens[0]) . "', " .
                      "single_message = '" . (isset($VAR['scheduleIsPeriodic']) ? "0" : "1") . "', " .
@@ -336,6 +355,16 @@ class cWebDate {
         global $oSQL;
         $this->_sqlObj = $oSQL;
         return $this->_sqlObj->escapeString($string);
+    }
+
+    private function _updateLoginpassword($LOGINID, $newPassword) {
+        // @formatter:off
+        $sql = "update t_login " .
+               "set login_pass = '" . $this->_escapeString($newPassword) . "' ".
+               "where login_id= '" . $LOGINID . "'";
+        // @formatter:on
+        $this->_sqlObj->makeConn("main");
+        $this->_sqlObj->makeQuery($sql);
     }
 
 }

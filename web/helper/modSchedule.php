@@ -40,7 +40,11 @@ function saveScheduleData() {
         data: formData,
         success: function(data) {
             $('#resultScheduleSavingId').html('gespeichert');
-            setTimeout(function() { clearScheduleData();}, 4000);
+            $('#scheduleListId').html('');
+            $('#scheduleListId').load('webdateList.php?selectedMonth=<?php echo $_GET['selectedMonth']; ?>');
+            setTimeout(function() {
+                clearScheduleData();
+            }, 1000);
         }
     });
 }
@@ -58,9 +62,10 @@ function _deleteScheduleEntry() {
         data: formData,
         success: function(data) {
             $('#resultScheduleSavingId').html('gespeichert');
-            setTimeout(function() { clearScheduleData();
-                $('#scheduleListId').html('');
-                $('#scheduleListId').load('webdateList.php?selectedMonth=<?php echo $_GET['selectedMonth']; ?>');
+            $('#scheduleListId').html('');
+            $('#scheduleListId').load('webdateList.php?selectedMonth=<?php echo $_GET['selectedMonth']; ?>');
+            setTimeout(function() {
+                clearScheduleData();
             }, 4000);
         }
     });

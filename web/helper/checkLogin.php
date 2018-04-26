@@ -39,6 +39,7 @@ $_SESSION['ADMIN'] = false;
         $_SESSION['ADMIN'] = $oWebDate->checkAdminRights($loginResult);
         $_SESSION['RECIPIENT_ID']     = $oWebDate->queryRecipientByLoginId($loginResult);
         $_SESSION['RELATED_EMAIL_ID'] = $loginResult;
+        $_SESSION['LOGINID']          = $loginResult;
         echo "success";
         exit;
     }
