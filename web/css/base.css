@@ -2,6 +2,14 @@
 
 @import url("table-grids.css");
 
+.datePickerField {
+    background: url(images/calendar.png) no-repeat left center;
+    width:125px;
+    height:40px;
+    border: 1px solid lightgrey;
+    padding-left:25px;
+}
+
 .h40 {
     height:40px;
     vertical-align:middle;

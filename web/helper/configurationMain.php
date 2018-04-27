@@ -34,6 +34,9 @@ function addRecipient() {
 function modRecipient(selectedRecipient) {
     openAdditionalDialog("editRecipientId", "helper/modEMailRecipient.inc.php?selectedRecipient=" + selectedRecipient, getABSWidth(50), getABSHeight(55));
 }
+function createAndSendTestMail() {
+    openAdditionalDialog("editRecipientId", "helper/createAndSendMail.inc.php", getABSWidth(50), getABSHeight(55));
+}
 </script>
 <div class="table" style="width:99%;margin:0 auto;">
     <div class="trow">
@@ -41,7 +44,8 @@ function modRecipient(selectedRecipient) {
             <div class="table">
                 <div class="trow">
                     <div class="tcell">
-                        <button onClick="addRecipient();">Neu</button>
+                        <button onClick="addRecipient();"><img src="images/gfx/page_white.png"></button>
+                        <button onClick="createAndSendTestMail();"><img src="images/gfx/email.png"></button>
                     </div>
                     <div class="tcell"> EMail-Empf&auml;nger </div>
                 </div>

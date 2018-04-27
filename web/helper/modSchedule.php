@@ -16,6 +16,7 @@ session_start();
 @define("DS", DIRECTORY_SEPARATOR);
 require_once (dirname(__FILE__) . DS . ".." . DS . "main" . DS . "baseStart.inc.php");
 $entry = $oWebDate->queryEntry($_GET['selectedEntry']);
+$recipient = $oWebDate->queryRecipient($_SESSION['RECIPIENT_ID']);
 if (intval($entry['year']) > 0) {
     $year = $entry['year'];
 } else {
@@ -24,7 +25,7 @@ if (intval($entry['year']) > 0) {
 ?>
 <script>
 $(document).ready(function() {
-    $('#scheduleDateId').datepicker({autoOpen: false});
+    $('#scheduleDateId').datepicker({autoOpen: false, dateFormat: 'dd.mm.yy', firstDay: 1});
 });
 function clearScheduleData() {
     console.log('try to close dialog');
@@ -89,17 +90,16 @@ function openRecipientChooser() {
             <div class="table" style="width: 100%;">
                 <div class="trow">
                     <div class="tcell h40 f12" style="width: 100%;">
-                        <div id="recipientId"><?php echo $entry['recipient_name']; ?></div>
+                        <div id="recipientId"><?php echo $recipient['recipient_name'] . "<br>&lt;" . $recipient['recipient_address'] . "&gt;"; ?></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="trow">
-        <div class="tcell ui-widget-content h40 f12" style="width: 25%;">Datum
-            des Termins</div>
+        <div class="tcell ui-widget-content h40 f12" style="width: 25%;">Datum des Termins</div>
         <div class="tcell ui-widget-content h40 f12" style="width: 75%;">
-            <input type="text" name="scheduleDate" id="scheduleDateId"
+            <input class="datePickerField" type="text" name="scheduleDate" id="scheduleDateId"
                 value="<?php echo sprintf("%02d.%02d.%d", $entry['day'], $entry['month'], $year); ?>">
         </div>
     </div>

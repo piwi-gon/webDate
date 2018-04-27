@@ -15,20 +15,9 @@
 session_start();
 @define("DS", DIRECTORY_SEPARATOR);
 require_once (dirname(__FILE__) . DS . ".." . DS . "main" . DS . "baseStart.inc.php");
+$recipient = $oWebDate->queryRecipient($_SESSION['RECIPIENT_ID']);
 ?>
 <script>
-$(document).ready(function() {
-    $.ajax({
-        url: "helper/readRecipientById.inc.php?selectedRecipientId=<?php echo $_SESSION['RELATED_EMAIL_ID']; ?>",
-        type: 'POST',
-        success: function(data) {
-            console.log(data);
-            var tokens = data.split("|");
-            $('#recipientId').html(tokens[1]);
-            $('#selectedRecipientId').val(tokens[0]);
-        }
-    });
-});
 function clearScheduleData() {
     $('#dialog').dialog('close').remove();
 }
@@ -46,7 +35,7 @@ function saveScheduleData() {
     });
 }
 $(document).ready(function() {
-    $('#scheduleDateId').datepicker({autoOpen: false, dateFormat: 'dd.mm.yy'});
+    $('#scheduleDateId').datepicker({autoOpen: false, dateFormat: 'dd.mm.yy', firstDay: 1});
 });
 
 function openRecipientChooser() {
@@ -66,8 +55,8 @@ function openRecipientChooser() {
             <div class="table" style="width:100%;">
                 <div class="trow">
                     <div class="tcell h40 f12" style="width:100%;">
-                        <div id="recipientId"></div>
-                        <input type="hidden" name="selectedRecipientId" id="selectedRecipientIdId">
+                        <div id="recipientId"><?php echo $recipient['recipient_name'] . "<br>&lt;" . $recipient['recipient_address'] . "&gt;"; ?></div>
+                        <input type="hidden" name="selectedRecipientId" id="selectedRecipientIdId" value="<?php echo $recipient['recipient_id']; ?>">
                     </div>
                 </div>
             </div>
@@ -76,7 +65,7 @@ function openRecipientChooser() {
     <div class="trow">
         <div class="tcell ui-widget-content h40 f12" style="width:40%;">Datum des Termins</div>
         <div class="tcell ui-widget-content h40 f12" style="width:60%;">
-            <input type="text" name="scheduleDate" id="scheduleDateId">
+            <input class="datePickerField" type="text" name="scheduleDate" id="scheduleDateId">
         </div>
     </div>
     <div class="trow">
