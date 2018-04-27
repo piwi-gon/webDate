@@ -17,5 +17,8 @@ ini_set("display_errors", 1);
 require_once(dirname(__FILE__).DS."..".DS."main".DS."baseStart.inc.php");
 $dateTokens = explode(".", $_POST['scheduleDate']);
 checkAuth();
-echo $oWebDate->addRecipient($_POST['emailRecipientName'], $_POST['emailRecipientAddress']);
+$insertId = $oWebDate->addRecipient($_POST);
+if(intval($insertId)>0) {
+    $oWebDate->addLoginData($_POST);
+}
 ?>

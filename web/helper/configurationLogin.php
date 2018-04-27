@@ -27,8 +27,11 @@ function checkLogin() {
             type: "POST",
             data: formData,
             success: function(data) {
+                console.log(data);
                 if(data == "success") {
                     $('#mainContentId').load('webdateList.php');
+                } else {
+                    $('#mainConfigurationContentId').effect('shake');
                 }
             }
         });
@@ -50,7 +53,7 @@ function checkLoginKey(event) {
         <div class="trow">
             <div class="tcell ui-widget-content h40 calign f12b" style="width:80%;margin:0 auto;">
                 Login<br>
-                <input type="text" name="loginName" id="loginNameId" onkeypress="checkLoginKey(event);">
+                <input type="text" name="loginName" id="loginNameId" onKeyPress="checkLoginKey(event);">
             </div>
         </div>
         <div class="trow">

@@ -19,10 +19,12 @@ require_once(dirname(__FILE__).DS."main".DS."baseStart.inc.php");
 <head>
     <title>WebDate V2.0.0</title>
     <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/jquery.messagebox.css">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="lib/js/base.js"></script>
+    <script src="lib/js/jquery.messagebox.widget.js"></script>
 </head>
 <body>
 <div id="dialog"></div>
@@ -33,7 +35,7 @@ require_once(dirname(__FILE__).DS."main".DS."baseStart.inc.php");
         </div>
     </div>
 </div>
-<?php 
+<?php
 if(!$_SESSION['AUTH']) {
 ?>
 <script>

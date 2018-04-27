@@ -98,7 +98,8 @@ class cMySQLi {
     }
 
     public function escapeString($string) {
-        if(!is_object($this->_sqlObj)) { $this->makeConn("local"); }
+        // echo "try to escape '" . $string . "'\n";
+        if(!is_object($this->_sqlObj)) { $this->makeConn("main"); }
         $ret = $this->_sqlObj->real_escape_string($string);
         return $ret;
     }

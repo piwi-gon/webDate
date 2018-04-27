@@ -5,18 +5,19 @@
  */
 
 
-function openMainDialog(site, theWidth, theHeight, dialogId) {
+function openMainDialog(site, theWidth, theHeight, dialogId, modal) {
     if(dialogId==undefined) { dialogId = "dialog"; }
+    console.log(modal);
     if($('#'+dialogId).length == 0) { $('body').append($('<div>').attr("id", dialogId));}
     $('#'+dialogId).html('').hide();
-    $('#'+dialogId).dialog({ height:(theHeight != undefined ? theHeight : 600), width: (theWidth != undefined ? theWidth : 900)});
+    $('#'+dialogId).dialog({ height:(theHeight != undefined ? theHeight : 600), width: (theWidth != undefined ? theWidth : 900), modal: (modal != undefined ? modal : false)});
     $('#'+dialogId).load(site, function() { $('#'+dialogId).show(); });
 }
 
-function openAdditionalDialog(dialogName, site, theWidth, theHeight) {
+function openAdditionalDialog(dialogName, site, theWidth, theHeight, modal) {
     if($('#'+dialogName).length == 0) { $('body').append($('<div>').attr("id", dialogName));}
     $('#'+dialogName).html('').hide();
-    $('#'+dialogName).dialog({ height:(theHeight != undefined ? theHeight : 600), width: (theWidth != undefined ? theWidth : 900)});
+    $('#'+dialogName).dialog({ height:(theHeight != undefined ? theHeight : 600), width: (theWidth != undefined ? theWidth : 900), modal: (modal != undefined ? modal : false)});
     $('#'+dialogName).load(site, function() { $('#'+dialogName).show(); });
 }
 

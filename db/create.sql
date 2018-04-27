@@ -26,6 +26,7 @@ CREATE TABLE t_recipient(
 
 CREATE TABLE t_login (
     login_id                        INT auto_increment primary key,
+    fk_recipient_id                 INT
     login_name                      VARCHAR(40)     DEFAULT ''      NOT NULL,
     login_pass                      VARCHAR(255)    DEFAULT ''      NOT NULL,
     full_name                       VARCHAR(255)    DEFAULT ''      NOT NULL

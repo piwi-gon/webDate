@@ -12,6 +12,10 @@
  *
  */
 
+session_start();
+@define("DS", DIRECTORY_SEPARATOR);
+require_once (dirname(__FILE__) . DS . ".." . DS . "main" . DS . "baseStart.inc.php");
+$recipient = $oWebDate->queryRecipient($_SESSION['RECIPIENT_ID']);
 ?>
 <script>
 function clearScheduleData() {
@@ -20,17 +24,20 @@ function clearScheduleData() {
 function saveScheduleData() {
     var formData = $('input,textarea,select').serialize();
     $.ajax({
-        url: "help/saveScheduleData.php",
+        url: "helper/saveScheduleData.php",
         type: "POST",
         data: formData,
         success: function(data) {
+            console.log(data);
             $('#resultScheduleSavingId').html('gespeichert');
+            $('#scheduleListId').html('');
+            $('#scheduleListId').load('webdateList.php?selectedMonth=<?php echo $_GET['selectedMonth']; ?>');
             window.setTimeout(function() { $('#dialog').dialog('close').remove(); }, 3000);
         }
     });
 }
 $(document).ready(function() {
-    $('#scheduleDateId').datepicker({autoOpen: false});
+    $('#scheduleDateId').datepicker({autoOpen: false, dateFormat: 'dd.mm.yy', firstDay: 1});
 });
 
 function openRecipientChooser() {
@@ -45,24 +52,26 @@ function openRecipientChooser() {
 </div>
 <div class="table" style="width:99%;margin:0 auto;">
     <div class="trow">
-        <div class="tcell ui-widget-content h40 f12" style="width:40%;">Datum des Termins</div>
-        <div class="tcell ui-widget-content h40 f12" style="width:60%;">
-            <input type="text" name="scheduleDate" id="scheduleDateId">
-        </div>
-    </div>
-    <div class="trow">
         <div class="tcell ui-widget-content h40 f12" style="width:40%;">Empf&auml;nger</div>
         <div class="tcell ui-widget-content" style="width:60%;">
             <div class="table" style="width:100%;">
                 <div class="trow">
-                    <div class="tcell h40 f12" style="width:70%;"><div id="recipientId"></div></div>
-                    <div class="tcell h40 f12" style="width:30%;"><button onClick="openRecipientChooser();">...</button></div>
+                    <div class="tcell h40 f12" style="width:100%;">
+                        <div id="recipientId"><?php echo $recipient['recipient_name'] . "<br>&lt;" . $recipient['recipient_address'] . "&gt;"; ?></div>
+                        <input type="hidden" name="selectedRecipientId" id="selectedRecipientIdId" value="<?php echo $recipient['recipient_id']; ?>">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="trow">
-        <div class="tcell ui-widget-content f12" style="width:40%;">Text</div>
+        <div class="tcell ui-widget-content h40 f12" style="width:40%;">Datum des Termins</div>
+        <div class="tcell ui-widget-content h40 f12" style="width:60%;">
+            <input class="datePickerField" type="text" name="scheduleDate" id="scheduleDateId">
+        </div>
+    </div>
+    <div class="trow">
+        <div class="tcell ui-widget-content f12" style="width:40%;align:center;vertical-align:middle;">Text</div>
         <div class="tcell ui-widget-content f12" style="width:60%;">
             <textarea name="scheduleMessage" id="scheduleMessageId" style="width:99%;height:120px;"></textarea>
         </div>

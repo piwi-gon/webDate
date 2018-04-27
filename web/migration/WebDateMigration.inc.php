@@ -14,7 +14,7 @@
 
 $mainDir = dirname(__FILE__);
 
-class WebDate {
+class WebDateMigration {
 
     private $_sqlObj;
     private $_soapParams;

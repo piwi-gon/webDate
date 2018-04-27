@@ -20,16 +20,18 @@ $recipients = $oWebDate->queryRecipients();
 <script>
 function addRecipientToScheduleEntry() {
     var selectedRecipientId = $('#emailRecipientId option:selected').val();
-    $.ajax({
-        url: "helper/readRecipientById.inc.php?selectedRecipientId=" + selectedRecipientId,
-        type: 'POST',
-        success: function(data) {
-            var tokens = data.split("|");
-            $('#recipientId').html(tokens[1]);
-            // $('#selectedScheduleEntryId').val(selectedRecipientId);
-            $('#selectedScheduleEntryId').val(tokens[0]);
-        }
-    });
+    if(selectedRecipientId!=undefined && selectedRecipientId != '') {
+        $.ajax({
+            url: "helper/readRecipientById.inc.php?selectedRecipientId=" + selectedRecipientId,
+            type: 'POST',
+            success: function(data) {
+                console.log(data);
+                var tokens = data.split("|");
+                $('#recipientId').html(tokens[1]);
+                $('#selectedRecipientId').val(tokens[0]);
+            }
+        });
+    }
 }
 </script>
 <div class="table">
