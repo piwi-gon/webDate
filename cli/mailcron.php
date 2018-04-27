@@ -17,7 +17,7 @@ $currentDirectory = dirname(__FILE__);
 $currentlog = $currentDirectory.DS."mail.log";
 error_log(date('Ymd His').": current Dir: " . $currentDirectory . "\n", 3, $currentlog);
 require_once($currentDirectory . DS . "clistart.inc.php");
-$additionalHeader = "From: WebdateV2.0 <webdate@wondernet24.de>";
+$additionalHeader = "From: WebdateV2.0 &lt;webdate@wondernet24.de&gt;";
 $from = "webdate@wondernet24.de";
 if($_GET['recipientAddress']!="") {
     $rec['recipient_address'] = urldecode($_GET['recipientAddress']);

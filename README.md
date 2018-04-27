@@ -1,1 +1,12 @@
 WebDate
+
+simple web-interface and cron-job for using and sending dates
+for one or more recipients.
+
+includes a simple-admin-frontend for adding new recipients
+
+TODOs:
+set sender-address to be variable
+set logging on/off
+send password to newly generated recipient
+some checks in the dialogs for input

@@ -9,10 +9,15 @@
  *
  */
 
+session_start();
 @define("DS", DIRECTORY_SEPARATOR);
 require_once(dirname(__FILE__).DS."..".DS."main".DS."baseStart.inc.php");
 checkAuth();
-$recipient=$oWebDate->queryRecipient($_SESSION['RECIPIENT_ID']);
+if($_GET['selectedRecipient'] != "") {
+    $recipient = $oWebDate->queryRecipient($_GET['selectedRecipient']);
+} else {
+    $recipient = $oWebDate->queryRecipient($_SESSION['RECIPIENT_ID']);
+}
 ?>
 <script>
 function clearRecipientAddressData() {

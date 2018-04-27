@@ -32,7 +32,7 @@ function addRecipient() {
     openAdditionalDialog("editRecipientId", "helper/addEMailRecipient.inc.php", getABSWidth(50), getABSHeight(55));
 }
 function modRecipient(selectedRecipient) {
-    openAdditionalDialog("editRecipientId", "helper/modEMailRecipient.inc.php?selectedRecipient=" + selectedRecipient, getABSWidth(50), getABSHeight(55));
+    openAdditionalDialog("editRecipientId", "helper/changeRecipientAddress.php?selectedRecipient=" + selectedRecipient, getABSWidth(50), getABSHeight(55));
 }
 function createAndSendTestMail() {
     openAdditionalDialog("editRecipientId", "helper/createAndSendMail.inc.php", getABSWidth(50), getABSHeight(55));
@@ -46,6 +46,8 @@ function createAndSendTestMail() {
                     <div class="tcell">
                         <button onClick="addRecipient();"><img src="images/gfx/page_white.png"></button>
                         <button onClick="createAndSendTestMail();"><img src="images/gfx/email.png"></button>
+                        <button onClick="configureSenderData();"><img src="images/gfx/attributes_display.png"></button>
+                        <button onClick="configureLogging();"><img src="images/gfx/action_log.png"></button>
                     </div>
                     <div class="tcell"> EMail-Empf&auml;nger </div>
                 </div>

@@ -292,6 +292,7 @@ class cWebDate {
 
     private function _updateEntry($VAR) {
         if ($VAR['deleteEntry'] == "true") {
+            $this->_deleteRelation($VAR['selectedScheduleEntry']);
             // @formatter:off
             $query = "delete from t_schedule ".
                      "where schedule_id = '" . $this->_escapeString($VAR['selectedScheduleEntry']) . "'";
@@ -361,6 +362,15 @@ class cWebDate {
         $sql = "update t_login " .
                "set login_pass = '" . $this->_escapeString($newPassword) . "' ".
                "where login_id= '" . $LOGINID . "'";
+        // @formatter:on
+        $this->_sqlObj->makeConn("main");
+        $this->_sqlObj->makeQuery($sql);
+    }
+
+    private function _deleteRelation($selectedScheduleEntry) {
+        // @formatter:off
+        $sql = "delete from r_schedule_recipient " .
+                "where fk_schedule_id = '" . $selectedScheduleEntry . "'";
         // @formatter:on
         $this->_sqlObj->makeConn("main");
         $this->_sqlObj->makeQuery($sql);

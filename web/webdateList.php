@@ -154,6 +154,7 @@ foreach(array_keys($months) as $month) {
     <div class="table" style="width:100%;">
 <?php
     $i = 0;
+    if(!is_array($data)) { $data = array(); }
     if(count($data)>0) {
         if(is_array($data)) {
             foreach($data as $row){
