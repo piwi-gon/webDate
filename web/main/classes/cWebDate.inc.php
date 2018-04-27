@@ -68,16 +68,15 @@ class cWebDate {
     }
 
     public function queryAllData($recipientId, $month = "") {
-        // $recipientId = $this->queryRecipientByLoginId($loginId);
         // @formatter:off
         $sql = "select * from t_schedule as a " .
                "left join r_schedule_recipient as b on a.schedule_id = b.fk_schedule_id " .
                "left join t_recipient as c on b.fk_recipient_id = c.recipient_id ".
                "where fk_recipient_id = '" . $recipientId . "'";
-        // @formatter:on
         if ($month != "") {
             $sql .= " and month = '" . $month . "' order by month, day";
         }
+        // @formatter:on
         $this->_sqlObj->makeConn("main");
         $result = $this->_sqlObj->makeQuery($sql);
         return $result;
@@ -279,15 +278,16 @@ class cWebDate {
         $dateTokens = explode("-", $VAR['scheduleDateISO']);
         // @formatter:off
         $insert = "insert into t_schedule (month, day, year, message, single_message) " .
-                  "VALUES('" . $this->_escapeString($dateTokens[2]) . "', " .
-                  "'" . $this->_escapeString($dateTokens[1]) . "', " .
+                  "VALUES('" . $this->_escapeString($dateTokens[1]) . "', " .
+                  "'" . $this->_escapeString($dateTokens[2]) . "', " .
                   "'" . $this->_escapeString($dateTokens[0]) . "', " .
                   "'" . $this->_escapeString($VAR['scheduleMessage']) . "', ".
                   "'" . (isset($VAR['scheduleIsPeriodic']) ? "0" : "1") . "')";
         // @formatter:on
-        echo $insert."\n";
         $this->_sqlObj->makeConn("main");
         $this->_sqlObj->makeQuery($insert);
+        $insertId = $this->_sqlObj->insertId();
+        $this->_relateMessageToRecipient($insertId, $VAR['selectedRecipientId']);
     }
 
     private function _updateEntry($VAR) {
@@ -308,7 +308,6 @@ class cWebDate {
                      "where schedule_id = '" . $this->_escapeString($VAR['selectedScheduleEntry']) . "'";
             // @formatter:on
         }
-        echo $query."\n";
         $this->_sqlObj->makeConn("main");
         $this->_sqlObj->makeQuery($query);
     }

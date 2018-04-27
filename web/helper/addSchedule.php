@@ -30,6 +30,8 @@ function saveScheduleData() {
         success: function(data) {
             console.log(data);
             $('#resultScheduleSavingId').html('gespeichert');
+            $('#scheduleListId').html('');
+            $('#scheduleListId').load('webdateList.php?selectedMonth=<?php echo $_GET['selectedMonth']; ?>');
             window.setTimeout(function() { $('#dialog').dialog('close').remove(); }, 3000);
         }
     });

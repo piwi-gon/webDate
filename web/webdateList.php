@@ -37,8 +37,8 @@ function openEditDialog(selectedEntry, selectedMonth) {
     openMainDialog("helper/modSchedule.php?selectedEntry="+selectedEntry+"&selectedMonth="+selectedMonth, getABSWidth(50), getABSHeight(55));
 }
 
-function addEntry(selectedEntry) {
-    openMainDialog("helper/addSchedule.php", 600, 400);
+function addEntry(selectedEntry, selectedMonth) {
+    openMainDialog("helper/addSchedule.php?selectedMonth="+selectedMonth, 600, 400);
 }
 
 function configuration() {
@@ -132,7 +132,7 @@ foreach(array_keys($months) as $month) {
 <?php
     if(!$_SESSION['ADMIN']) {
 ?>
-                            <button onClick="addEntry();" title="Neuer Eintrag"><img src="images/gfx/page_white.png"></button>
+                            <button onClick="addEntry('', '<?php echo $_GET['selectedMonth']; ?>');" title="Neuer Eintrag"><img src="images/gfx/page_white.png"></button>
 <?php
     }
 ?>
