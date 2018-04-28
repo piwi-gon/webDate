@@ -11,14 +11,18 @@
  * purpose:
  *
  */
+
+include_once(dirname(__FILE__).DS."options".DS."tWebDateOptions.inc.php");
+
 class cWebDate {
+
+    use tWebdateOptions;
 
     private $_sqlObj;
 
     public function __construct() {
         global $oSQL;
         $this->_sqlObj = $oSQL;
-        // $this->_endPoint = "https://www.wondernet24.de/webdate/service/server.php";
     }
 
     public function correct() {

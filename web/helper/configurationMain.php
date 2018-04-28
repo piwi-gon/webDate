@@ -32,10 +32,13 @@ function addRecipient() {
     openAdditionalDialog("editRecipientId", "helper/addEMailRecipient.inc.php", getABSWidth(50), getABSHeight(55));
 }
 function modRecipient(selectedRecipient) {
-    openAdditionalDialog("editRecipientId", "helper/changeRecipientAddress.php?selectedRecipient=" + selectedRecipient, getABSWidth(50), getABSHeight(55));
+    openAdditionalDialog("emailChangeId", "helper/changeRecipientAddress.php?selectedRecipient=" + selectedRecipient, getABSWidth(50), getABSHeight(55));
 }
 function createAndSendTestMail() {
     openAdditionalDialog("editRecipientId", "helper/createAndSendMail.inc.php", getABSWidth(50), getABSHeight(55));
+}
+function configureWebDateOptions() {
+    openAdditionalDialog("webDateOptionId", "helper/configureWebDateOptions.php", getABSWidth(50), getABSHeight(55));
 }
 </script>
 <div class="table" style="width:99%;margin:0 auto;">
@@ -46,8 +49,7 @@ function createAndSendTestMail() {
                     <div class="tcell">
                         <button onClick="addRecipient();"><img src="images/gfx/page_white.png"></button>
                         <button onClick="createAndSendTestMail();"><img src="images/gfx/email.png"></button>
-                        <button onClick="configureSenderData();"><img src="images/gfx/attributes_display.png"></button>
-                        <button onClick="configureLogging();"><img src="images/gfx/action_log.png"></button>
+                        <button onClick="configureWebDateOptions();"><img src="images/gfx/widgets.png"></button>
                     </div>
                     <div class="tcell"> EMail-Empf&auml;nger </div>
                 </div>
