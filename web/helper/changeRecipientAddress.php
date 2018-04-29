@@ -44,7 +44,7 @@ function saveRecipientAddressData(){
 <div class="table99">
     <div class="trow">
         <div class="tcell40 ui-widget-content h40 f12b lalign">
-            Ihre E-Mail-Adresse zur Zeit
+            Ihre E-Mail-Adresse(n) zur Zeit
         </div>
         <div class="tcell60 ui-widget-content h40 f12 lalign">
             <?php echo $recipient['recipient_name'] . " &lt;".$recipient['recipient_address'] . "&gt;"; ?>

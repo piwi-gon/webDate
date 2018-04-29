@@ -29,7 +29,8 @@ CREATE TABLE t_login (
     fk_recipient_id                 INT
     login_name                      VARCHAR(40)     DEFAULT ''      NOT NULL,
     login_pass                      VARCHAR(255)    DEFAULT ''      NOT NULL,
-    full_name                       VARCHAR(255)    DEFAULT ''      NOT NULL
+    full_name                       VARCHAR(255)    DEFAULT ''      NOT NULL,
+    salt                            VARCHAR(255)    DEFAULT''       NOT NULL
 );
 
 --

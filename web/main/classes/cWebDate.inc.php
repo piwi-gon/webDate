@@ -12,23 +12,18 @@
  *
  */
 
+include_once(dirname(__FILE__).DS."auth".DS."tAuth.inc.php");
 include_once(dirname(__FILE__).DS."options".DS."tWebDateOptions.inc.php");
 
 class cWebDate {
 
-    use tWebdateOptions;
+    use tAuth, tWebdateOptions;
 
     private $_sqlObj;
 
     public function __construct() {
         global $oSQL;
         $this->_sqlObj = $oSQL;
-    }
-
-    public function correct() {
-        $sql = "update t_schedule set single_message = 1 where year > 0";
-        $this->_sqlObj->makeConn("main");
-        $this->_sqlObj->makeQuery($sql);
     }
 
     public function relate() {
@@ -59,7 +54,7 @@ class cWebDate {
      */
     public function queryCalendarData($recipientId = "") {
         // @formatter:off
-        $sql = "select * from r_schedule_recipient as a ".
+        $sql  = "select * from r_schedule_recipient as a ".
                 "left join t_schedule as b on a.fk_schedule_id = b.schedule_id ".
                 "where day = '".date('d')."' and ".
                 "month = '".date('m')."' ".
@@ -73,10 +68,10 @@ class cWebDate {
 
     public function queryAllData($recipientId, $month = "") {
         // @formatter:off
-        $sql = "select * from t_schedule as a " .
-               "left join r_schedule_recipient as b on a.schedule_id = b.fk_schedule_id " .
-               "left join t_recipient as c on b.fk_recipient_id = c.recipient_id ".
-               "where fk_recipient_id = '" . $recipientId . "'";
+        $sql  = "select * from t_schedule as a " .
+                "left join r_schedule_recipient as b on a.schedule_id = b.fk_schedule_id " .
+                "left join t_recipient as c on b.fk_recipient_id = c.recipient_id ".
+                "where fk_recipient_id = '" . $recipientId . "'";
         if ($month != "") {
             $sql .= " and month = '" . $month . "' order by month, day";
         }
@@ -88,9 +83,9 @@ class cWebDate {
 
     public function queryData() {
         // @formatter:off
-        $sql = "select * from t_schedule as a ".
-               "left join r_schedule_recipient as b on a.schedule_id = b.fk_schedule_id " .
-               "left join t_recipient as c on b.fk_recipient_id = c.recipient_id";
+        $sql  = "select * from t_schedule as a ".
+                "left join r_schedule_recipient as b on a.schedule_id = b.fk_schedule_id " .
+                "left join t_recipient as c on b.fk_recipient_id = c.recipient_id";
         // @formatter:on
         $this->_sqlObj->makeConn("main");
         $result = $this->_sqlObj->makeQuery($sql);
@@ -99,10 +94,10 @@ class cWebDate {
 
     public function queryEntry($selectedEntry) {
         // @formatter:off
-        $sql = "select * from t_schedule as a " .
-               "left join r_schedule_recipient as b on a.schedule_id = b.fk_schedule_id " .
-               "left join t_recipient as c on b.fk_recipient_id = c.recipient_id " .
-               "where schedule_id = '" . $selectedEntry . "'";
+        $sql  = "select * from t_schedule as a " .
+                "left join r_schedule_recipient as b on a.schedule_id = b.fk_schedule_id " .
+                "left join t_recipient as c on b.fk_recipient_id = c.recipient_id " .
+                "where schedule_id = '" . $selectedEntry . "'";
         // @formatter:on
         $this->_sqlObj->makeConn("main");
         $result = $this->_sqlObj->makeQuery($sql);
@@ -110,14 +105,14 @@ class cWebDate {
     }
 
     public function queryRelation() {
-        $sql = "select * from r_schedule_recipient";
+        $sql  = "select * from r_schedule_recipient";
         $this->_sqlObj->makeConn("main");
         $result = $this->_sqlObj->makeQuery($sql);
         return $result;
     }
 
     public function queryRecipients() {
-        $sql = "select * from t_recipient"; // where active = 1";
+        $sql  = "select * from t_recipient"; // where active = 1";
         $this->_sqlObj->makeConn("main");
         $result = $this->_sqlObj->makeQuery($sql);
         if(count($result)>0) {
@@ -132,14 +127,14 @@ class cWebDate {
     }
 
     public function queryRecipient($recipientId) {
-        $sql = "select * from t_recipient where recipient_id = '" . $recipientId . "'";
+        $sql  = "select * from t_recipient where recipient_id = '" . $recipientId . "'";
         $this->_sqlObj->makeConn("main");
         $result = $this->_sqlObj->makeQuery($sql);
         return $result[0];
     }
 
     public function queryRecipientByLoginId($loginResult) {
-        $sql = "select fk_recipient_id from t_login where login_id = '" . $loginResult . "'";
+        $sql  = "select fk_recipient_id from t_login where login_id = '" . $loginResult . "'";
         $this->_sqlObj->makeConn("main");
         $result = $this->_sqlObj->makeQuery($sql);
         return $result[0]['fk_recipient_id'];
@@ -174,7 +169,7 @@ class cWebDate {
         if ($result == 0) {
             // @formatter:off
             $insert = "insert into t_recipient (recipient_name, recipient_address) " .
-                    "VALUES('" . $this->_escapeString($VAR['emailRecipientName']) . "', '" . $this->_escapeString($VAR['emailRecipientAddress']) . "')";
+                      "VALUES('" . $this->_escapeString($VAR['emailRecipientName']) . "', '" . $this->_escapeString($VAR['emailRecipientAddress']) . "')";
             // @formatter:on
             $this->_sqlObj->makeConn("main");
             $this->_sqlObj->makeQuery($insert);
@@ -209,61 +204,11 @@ class cWebDate {
     public function checkAdminRights($loginResult) {
         // @formatter:off
         $select = "select * from t_login as a ".
-                "where login_id = '" . $this->_escapeString($loginResult) . "'";
+                  "where login_id = '" . $this->_escapeString($loginResult) . "'";
         // @formatter:on
         $this->_sqlObj->makeConn("main");
         $result = $this->_sqlObj->makeQuery($select);
         return ($result[0]['is_admin'] == 1 ? true : false);
-    }
-
-    public function checkLoginData($userName, $userPass) {
-        // @formatter:off
-        $select = "select * from t_login as a ".
-                  "where login_name = '" . $this->_escapeString($userName) . "'";
-        // @formatter:on
-        $this->_sqlObj->makeConn("main");
-        $result = $this->_sqlObj->makeQuery($select);
-        if($result[0]['login_pass'] == $userPass) {
-            return (intval($result[0]['login_id'])>0 ? intval($result[0]['login_id']) : false);
-        }
-        return false;
-    }
-
-    public function changeLoginPassword($LOGINID, $VAR) {
-        // @formatter:off
-        $select = "select * from t_login where login_id = '" . $LOGINID . "'";
-        // @formatter:on
-        $this->_sqlObj->makeConn("main");
-        $result = $this->_sqlObj->makeQuery($select);
-        if($result[0]['login_pass'] == $VAR['currentPassword']) {
-            $this->_updateLoginpassword($LOGINID, $VAR['newPassword']);
-            return "success";
-        } else {
-            return "Falsches Passwort";
-        }
-    }
-
-    public function addLoginData($VAR) {
-        $result = $this->_checkLoginName($VAR['emailRecipientUser']);
-        if($result == 0) {
-            // @formatter:off
-            $insert = "insert into t_login (login_name, login_pass, full_name, fk_recipient_id) " .
-                    "VALUES('".$this->_escapeString($VAR['emailRecipientUser'])."', '" . $this->_escapeString($VAR['emailRecipientPass']) . "', '" . $this->_escapeString($VAR['emailRecipientName']) . "', ".$VAR['recipient_id'].")";
-            // @formatter:on
-            $this->_sqlObj->makeConn("main");
-            $this->_sqlObj->makeQuery($insert);
-        } else {
-            // @formatter:off
-            $update = "update t_login ".
-                      "set login_name = '".$this->_escapeString($VAR['emailRecipientUser'])."', ".
-                      "login_pass = '" . $this->_escapeString($VAR['emailRecipientPass']) . "', ".
-                      "full_name = '" . $this->_escapeString($VAR['emailRecipientName']) . "', ".
-                      "fk_recipient_id = ".$VAR['recipient_id']." ".
-                      "where login_id = '" . $result . "'";
-            // @formatter:on
-            $this->_sqlObj->makeConn("main");
-            $this->_sqlObj->makeQuery($update);
-        }
     }
 
     public function addAdminData($VAR) {
@@ -271,7 +216,7 @@ class cWebDate {
         if($result == 0) {
             // @formatter:off
             $insert = "insert into t_login (login_name, login_pass, full_name, fk_recipient_id, is_admin) " .
-                    "VALUES('".$this->_escapeString($VAR['emailRecipientUser'])."', '" . $this->_escapeString($VAR['emailRecipientPass']) . "', '" . $this->_escapeString($VAR['emailRecipientName']) . "', null, 1)";
+                      "VALUES('".$this->_escapeString($VAR['emailRecipientUser'])."', '" . $this->_escapeString($VAR['emailRecipientPass']) . "', '" . $this->_escapeString($VAR['emailRecipientName']) . "', null, 1)";
             // @formatter:on
             $this->_sqlObj->makeConn("main");
             $this->_sqlObj->makeQuery($insert);
@@ -327,16 +272,6 @@ class cWebDate {
         return intval($result[0]['recipient_id']);
     }
 
-    private function _checkLoginName($userName) {
-        // @formatter:off
-        $select = "select login_id from t_login " .
-                "where login_name = '" . $this->_escapeString($userName) . "'";
-        // @formatter:on
-        $this->_sqlObj->makeConn("main");
-        $result = $this->_sqlObj->makeQuery($select);
-        return intval($result[0]['login_id']);
-    }
-
     private function _relateMessageToRecipient($insertId, $recipientId) {
         // @formatter:off
         $insert = "insert into r_schedule_recipient " . "(fk_schedule_id, fk_recipient_id) " .
@@ -348,8 +283,8 @@ class cWebDate {
 
     public function _deleteEntry($selectedEntry) {
         // @formatter:off
-        $sql = "delete from t_schedule " .
-               "where schedule_id = '" . $selectedEntry . "'";
+        $sql  = "delete from t_schedule " .
+                "where schedule_id = '" . $selectedEntry . "'";
         // @formatter:on
         $this->_sqlObj->makeConn("main");
         $this->_sqlObj->makeQuery($sql);
@@ -361,19 +296,9 @@ class cWebDate {
         return $this->_sqlObj->escapeString($string);
     }
 
-    private function _updateLoginpassword($LOGINID, $newPassword) {
-        // @formatter:off
-        $sql = "update t_login " .
-               "set login_pass = '" . $this->_escapeString($newPassword) . "' ".
-               "where login_id= '" . $LOGINID . "'";
-        // @formatter:on
-        $this->_sqlObj->makeConn("main");
-        $this->_sqlObj->makeQuery($sql);
-    }
-
     private function _deleteRelation($selectedScheduleEntry) {
         // @formatter:off
-        $sql = "delete from r_schedule_recipient " .
+        $sql  = "delete from r_schedule_recipient " .
                 "where fk_schedule_id = '" . $selectedScheduleEntry . "'";
         // @formatter:on
         $this->_sqlObj->makeConn("main");
