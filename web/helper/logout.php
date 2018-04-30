@@ -13,3 +13,9 @@
 require_once(dirname(__FILE__).DS."..".DS."main".DS."baseStart.inc.php");
 checkAuth();
 session_destroy();
+?>
+<script>
+$(document).ready(function() {
+    window.location.href='<?php echo WEBDATE_WWW_DIR; ?>webdateMain.php';
+});
+</script>

@@ -29,5 +29,21 @@ CREATE TABLE t_login (
     fk_recipient_id                 INT
     login_name                      VARCHAR(40)     DEFAULT ''      NOT NULL,
     login_pass                      VARCHAR(255)    DEFAULT ''      NOT NULL,
-    full_name                       VARCHAR(255)    DEFAULT ''      NOT NULL
+    full_name                       VARCHAR(255)    DEFAULT ''      NOT NULL,
+    salt                            VARCHAR(255)    DEFAULT''       NOT NULL
 );
+
+--
+-- added 2018-04-27
+--
+CREATE TABLE t_configuration_option (
+    configuration_option_id         INT auto_increment primary key,
+    option_name                     VARCHAR(20)     DEFAULT ''      NOT NULL,
+    option_value                    VARCHAR(255)    DEFAULT ''      NOT NULL,
+    option_type                     ENUM('string', 'bool')   DEFAULT 'string'    NOT NULL
+);
+
+INSERT INTO t_configuration_option (option_name, option_value) VALUES('sender_name',            'WebDate V2.0');
+INSERT INTO t_configuration_option (option_name, option_value) VALUES('sender_address',         'webdate@wondernet24.de');
+INSERT INTO t_configuration_option (option_name, option_value, option_type) VALUES('logging',   'true', 'bool');
+INSERT INTO t_configuration_option (option_name, option_value) VALUES('logilfe',                'mail.log');

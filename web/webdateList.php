@@ -26,6 +26,7 @@ $(document).ready(function() {
 </script>
 <?php
 }
+$recipient = $oWebDate->queryRecipient($_SESSION['RECIPIENT_ID']);
 if($_GET['selectedMonth'] == "") {
 ?>
 <script>
@@ -81,8 +82,8 @@ function logout() {
     }
 ?>
         </div>
-        <div class="tcell75 ui-widget-header h40 f12b" style="padding-left:10px;">
-            Liste aller Eintr&auml;ge
+        <div class="tcell75 ui-widget-header h40 f12b calign" style="padding-left:10px;">
+            Liste aller Eintr&auml;ge f&uuml;r <?php echo $recipient['recipient_name']; ?>
         </div>
         <div class="tcell75 ui-widget-header h40 f12b" style="padding-left:10px;">
             <button onClick="logout();" title="Logout"><img src="images/gfx/door_out.png"></button>
@@ -154,6 +155,7 @@ foreach(array_keys($months) as $month) {
     <div class="table" style="width:100%;">
 <?php
     $i = 0;
+    if(!is_array($data)) { $data = array(); }
     if(count($data)>0) {
         if(is_array($data)) {
             foreach($data as $row){
