@@ -8,10 +8,5 @@ includes a simple-admin-frontend for adding new recipients
 
 TODOs:
 
-send password to newly generated recipient
-
 some checks in the dialogs for input
 
-create passwords if desired
-
-encode passwords

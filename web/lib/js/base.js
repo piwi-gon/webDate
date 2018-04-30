@@ -46,3 +46,7 @@ function getABSWidth(percentage, elementId) {
     // console.log("given percentage: " + percentage + " => caclulated: " + absWidth);
     return absWidth;
 }
+
+function centerOnScreen(elemId) {
+    $('#'+elemId).dialog('widget').position({of: $(document)});
+}

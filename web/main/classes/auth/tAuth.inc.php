@@ -9,7 +9,6 @@
  *
  */
 
-
 trait tAuth {
 
     private $auth=false;
@@ -22,10 +21,22 @@ trait tAuth {
         // @formatter:on
         $this->_sqlObj->makeConn("main");
         $result = $this->_sqlObj->makeQuery($select);
-        if($result[0]['login_pass'] == $userPass) {
+        if($result[0]['login_pass'] == $this->_encodePassword($userPass, $result[0]['salt'])) {
             return (intval($result[0]['login_id'])>0 ? intval($result[0]['login_id']) : false);
         }
         return false;
+    }
+
+    public function generateAndSendNewPassword($recipientName) {
+        if(strpos(strtolower($recipientName), "admin")!==false) {
+            return false;
+        }
+        $LOGINID = $this->_queryLoginIdByName($recipientName);
+        $password = $this->_createPassword(8);
+        $this->_updateLoginpassword($LOGINID, array('newPassword'=>$password));
+        $VAR['emailRecipientUser'] = $recipientName;
+        $VAR['emailRecipientPass'] = $password;
+        $this->_sendLoginDataToRecipientAddress($VAR);
     }
 
     public function changeLoginPassword($LOGINID, $VAR) {
@@ -129,4 +140,11 @@ trait tAuth {
         mail($VAR['emailRecipientAddress'], $from, $msg, $additionalHeader);
     }
 
+    private function _queryLoginIdByName($recipientName) {
+        $select = "select login_id from t_login ".
+                  "where login_name = '" . $this->_escapeString($recipientName) . "'";
+        $this->_sqlObj->makeConn("main");
+        $result = $this->_sqlObj->makeQuery($select);
+        return $result[0]['login_id'];
+    }
 }
