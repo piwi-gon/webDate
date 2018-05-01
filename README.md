@@ -10,3 +10,4 @@ TODOs:
 
 some checks in the dialogs for input
 
+add new configuration-option for deleting single-messages period
