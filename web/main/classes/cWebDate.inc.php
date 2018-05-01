@@ -104,6 +104,16 @@ class cWebDate {
         return $result[0];
     }
 
+    public function deactivateCalendarData($selectedEntry) {
+        // @formatter:off
+        $sql  = "update t_schedule " .
+                "set is_used = 1, used_date = now() " .
+                "where schedule_id = '" . $selectedEntry . "'";
+        // @formatter:on
+        $this->_sqlObj->makeConn("main");
+        $result = $this->_sqlObj->makeQuery($sql);
+    }
+
     public function queryRelation() {
         $sql  = "select * from r_schedule_recipient";
         $this->_sqlObj->makeConn("main");
@@ -112,7 +122,7 @@ class cWebDate {
     }
 
     public function queryRecipients() {
-        $sql  = "select * from t_recipient"; // where active = 1";
+        $sql  = "select * from t_recipient";
         $this->_sqlObj->makeConn("main");
         $result = $this->_sqlObj->makeQuery($sql);
         if(count($result)>0) {
@@ -147,23 +157,6 @@ class cWebDate {
             $this->_insertEntry($VAR);
         }
     }
-
-    public function addScheduleEntry($message, $day, $month, $year, $recipientId) {
-        // @formatter:off
-        $insert = "insert into t_schedule (message, day, month, year, single_message, is_used) " .
-                  "VALUES('" . $this->_escapeString($message) . "', " .
-                  "'" . $this->_escapeString($day) . "', " .
-                  "'" . $this->_escapeString($month) . "', " .
-                  "'" . $this->_escapeString($year) . "', " .
-                  "'" . (($year == "") ? "1" : "0") . "', " .
-                  "'" . "0" . "')";
-        // @formatter:on
-        $this->_sqlObj->makeConn("main");
-        $this->_sqlObj->makeQuery($insert);
-        $insertId = $this->_sqlObj->insertId();
-        $this->_relateMessageToRecipient($insertId, $recipientId);
-    }
-
     public function addRecipient($VAR) {
         $result = $this->_checkAddress($VAR['emailRecipientAddress']);
         if ($result == 0) {
@@ -226,12 +219,12 @@ class cWebDate {
     private function _insertEntry($VAR) {
         $dateTokens = explode("-", $VAR['scheduleDateISO']);
         // @formatter:off
-        $insert = "insert into t_schedule (month, day, year, message, single_message) " .
+        $insert = "insert into t_schedule (month, day, year, message, single_message, is_used) " .
                   "VALUES('" . $this->_escapeString($dateTokens[1]) . "', " .
                   "'" . $this->_escapeString($dateTokens[2]) . "', " .
                   "'" . $this->_escapeString($dateTokens[0]) . "', " .
                   "'" . $this->_escapeString($VAR['scheduleMessage']) . "', ".
-                  "'" . (isset($VAR['scheduleIsPeriodic']) ? "0" : "1") . "')";
+                  "'" . (isset($VAR['scheduleIsPeriodic']) ? "0" : "1") . "', '0')";
         // @formatter:on
         $this->_sqlObj->makeConn("main");
         $this->_sqlObj->makeQuery($insert);

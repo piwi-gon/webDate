@@ -13,6 +13,7 @@
  */
 
 @define("DS", DIRECTORY_SEPARATOR);
+// ini_set("display_errors", 1);
 $currentDirectory = dirname(__FILE__);
 require_once($currentDirectory . DS . "clistart.inc.php");
 $currentlog = $currentDirectory.DS.$oWebDate->getOptionValue("logfile");
@@ -27,9 +28,11 @@ if($_GET['recipientAddress']!="") {
     mail($rec['recipient_address'], $from, $rec['message'], $additionalHeader);
 } else {
     if($toLog) {  error_log(date('Ymd His').": no params found  - using default\n", 3, $currentlog); }
-    $recipients = $oWebdate->queryRecipients();
+    $recipients = $oWebDate->queryRecipients();
     foreach($recipients as $rec) {
-        $data = $oWebdate->queryCalendarData($rec['recipient_id']);
+        if($toLog) {  error_log(date('Ymd His').": querying data for ".$rec['recipient_name']." (".$rec['recipient_id'].")\n", 3, $currentlog); }
+        $data = $oWebDate->queryCalendarData($rec['recipient_id']);
+        if($toLog) {  error_log(date('Ymd His').": num fo data found: ".count($data)."\n", 3, $currentlog); }
         if(count($data)>0) {
             foreach($data as $row) {
                 if($toLog) { error_log(date('Ymd His').": now mailing '" . $row['message'] . "' to '" . $rec['recipient_address'] . "'\n", 3, $currentlog); }
@@ -40,6 +43,9 @@ if($_GET['recipientAddress']!="") {
                     }
                 } else {
                     mail($rec['recipient_address'], $from, $row['message'], $additionalHeader);
+                }
+                if($row['single_message'] == 1) {
+                    $oWebDate->deactivateCalendarData($row['schedule_id']);
                 }
             }
         }

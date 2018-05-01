@@ -1,2 +1,3 @@
 .settings
 .project
+/web/main/classes/lib/dbVars.inc.php
