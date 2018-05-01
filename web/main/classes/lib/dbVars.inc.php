@@ -12,8 +12,8 @@
  *
  */
 
-$DBHost['main'] = "wp127.webpack.hosteurope.de";
-$DBName['main'] = "db1144941-1";
-$DBUser['main'] = "dbu1144941";
-$DBPass['main'] = "diana310878";
+$DBHost['main'] = "<your dbhost>";
+$DBName['main'] = "<your dbname>";
+$DBUser['main'] = "<your dbuser>";
+$DBPass['main'] = "<your dbpass>";
 ?>
