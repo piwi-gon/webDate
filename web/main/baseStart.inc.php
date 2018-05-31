@@ -12,7 +12,8 @@
  *
  */
 
-$wwwDir = str_replace("helper", "", dirname($_SERVER['PHP_SELF']));
+$wwwDir = str_replace(["installer", "helper"], "", dirname($_SERVER['PHP_SELF']));
+$wwwDir = preg_replace('~/{2,}~', '/', $wwwDir);
 if(substr($wwwDir, -1) != "/") { $wwwDir .= "/"; }
 @define("WEBDATE_WWW_DIR", $wwwDir);
 if (session_status() == PHP_SESSION_NONE) {
@@ -36,6 +37,7 @@ function checkAuth() {
             && strpos($_SERVER['PHP_SELF'], "configurationLogin.php")===false
             && strpos($_SERVER['PHP_SELF'], "checkLogin.php")===false
             && strpos($_SERVER['PHP_SELF'], "passwordLostDialog.php")===false
+            && strpos($_SERVER['PHP_SELF'], "installer.php")===false
             && strpos($_SERVER['PHP_SELF'], "webdateMain.php")===false) {
         header("Location: ".WEBDATE_WWW_DIR."helper/configurationLogin.php");
         exit;

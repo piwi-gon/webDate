@@ -63,7 +63,7 @@ trait tAuth {
                       "VALUES('".$this->_escapeString($VAR['emailRecipientUser'])."', ".
                       "'" . $this->_escapeString($VAR['emailRecipientPass']) . "', ".
                       "'" . $this->_escapeString($VAR['emailRecipientName']) . "', ".
-                      $VAR['recipient_id'].", ".
+                      intval($VAR['recipient_id']).", ".
                       "'" . $this->_salt . "')";
             // @formatter:on
             $this->_sqlObj->makeConn("main");
@@ -76,7 +76,7 @@ trait tAuth {
                       "login_pass = '" . $this->_escapeString($VAR['emailRecipientPass']) . "', ".
                       "full_name = '" . $this->_escapeString($VAR['emailRecipientName']) . "', ".
                       "salt = '" . $this->_salt . "', ".
-                      "fk_recipient_id = ".$VAR['recipient_id']." ".
+                      "fk_recipient_id = ".intval($VAR['recipient_id'])." ".
                       "where login_id = '" . $result . "'";
             // @formatter:on
             $this->_sqlObj->makeConn("main");
@@ -112,7 +112,7 @@ trait tAuth {
 
     private function _encodePassword($thePassWord, $salt = "") {
         if($salt=="") {
-            $this->_salt = md5(unique_id().mt_rand().microtime());
+            $this->_salt = md5(uniqid().mt_rand().microtime());
         } else {
             $this->_salt = $salt;
         }
@@ -130,6 +130,7 @@ trait tAuth {
     }
 
     private function _sendLoginDataToRecipientAddress($VAR) {
+        if($VAR['emailRecipientAddress'] == "") { return; }
         $additionalHeader = "From: ".$this->getOptionValue("sender_name")." <".$this->getOptionValue("sender_address").">";
         $from = $this->getOptionValue("sender_address");
         $msg  = "Willkommen bei Webdate V2.0\n\n".

@@ -2,6 +2,10 @@
 
 @import url("table-grids.css");
 
+.vmiddle {
+    vertical-align:middle;
+}
+
 .datePickerField {
     background: url(images/calendar.png) no-repeat left center;
     width:125px;
@@ -72,4 +76,22 @@
 .ralign {
     text-align: right;
     padding-right: 5px;
+}
+
+.isEnabled {
+    background-color:darkgreen;
+    color:white;
+    font-weight:bold;
+}
+
+.isNOTEnabled {
+    background-color:darkred;
+    color:white;
+    font-weight:bold;
+}
+
+.checkquader {
+    width:120px;
+    height:45px;
+    padding:2px;
 }

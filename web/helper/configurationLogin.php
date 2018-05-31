@@ -15,6 +15,9 @@
 @define("DS", DIRECTORY_SEPARATOR);
 require_once(dirname(__FILE__).DS."..".DS."main".DS."baseStart.inc.php");
 $_SESSION['RECREATE'] = true;
+if(file_exists(dirname(__FILE__).DS."..".DS."installer".DS."installer.php")) {
+    header("Location: ".WEBDATE_WWW_DIR."/installer/installer.php");
+}
 ?>
 <html>
 <head>
@@ -82,7 +85,7 @@ function openPasswordLostDialog() {
     <div class="table" style="width:99%;margin:0 auto;">
         <div class="trow">
             <div class="tcell60 ui-widget-content h40 lalign f12b">
-                <a href="#" onClick="openPasswordLostDialog();">Passwort vergessen ?</a>
+                <a href="#" onClick="openPasswordLostDialog();"><span style="font-size:smaller;">Passwort vergessen ?</span></a>
             </div>
             <div class="tcell40 ui-widget-content h40 ralign f12b">
                 <button onClick="checkLogin();">Login</button>

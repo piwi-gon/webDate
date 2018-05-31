@@ -1,10 +1,12 @@
-CREATE TABLE r_schedule_recipient(
+<?php
+/*
+CREATE TABLE IF NOT EXISTS r_schedule_recipient(
     schedule_recipient_id           INT auto_increment primary key,
     fk_schedule_id                  INT,
     fk_recipient_id                 INT
 );
 
-CREATE TABLE t_schedule(
+CREATE TABLE IF NOT EXISTS t_schedule(
     schedule_id                     INT auto_increment primary key,
     message                         TEXT,
     day                             INT,
@@ -12,9 +14,10 @@ CREATE TABLE t_schedule(
     year                            INT,
     single_message                  TINYINT,
     is_used                         TINYINT,
-    used_date                       TIMESTAMP);
+    used_date                       TIMESTAMP
+);
 
-CREATE TABLE t_recipient(
+CREATE TABLE IF NOT EXISTS t_recipient(
     recipient_id                    INT auto_increment primary key,
     recipient_name                  VARCHAR(255)    DEFAULT ''      NOT NULL,
     recipient_address               VARCHAR(200)    DEFAULT ''      NOT NULL
@@ -24,9 +27,9 @@ CREATE TABLE t_recipient(
 -- added: 2017-08-27
 --
 
-CREATE TABLE t_login (
+CREATE TABLE IF NOT EXISTS t_login (
     login_id                        INT auto_increment primary key,
-    fk_recipient_id                 INT
+    fk_recipient_id                 INT,
     login_name                      VARCHAR(40)     DEFAULT ''      NOT NULL,
     login_pass                      VARCHAR(255)    DEFAULT ''      NOT NULL,
     full_name                       VARCHAR(255)    DEFAULT ''      NOT NULL,
@@ -36,7 +39,7 @@ CREATE TABLE t_login (
 --
 -- added 2018-04-27
 --
-CREATE TABLE t_configuration_option (
+CREATE TABLE IF NOT EXISTS t_configuration_option (
     configuration_option_id         INT auto_increment primary key,
     option_name                     VARCHAR(20)     DEFAULT ''      NOT NULL,
     option_value                    VARCHAR(255)    DEFAULT ''      NOT NULL,
@@ -52,3 +55,5 @@ INSERT INTO t_configuration_option (option_name, option_value) VALUES('logilfe',
 -- added 2018-05-01
 --
 INSERT INTO t_configuration_option (option_name, option_value) VALUES('autoremove',             '21');
+*/
+?>

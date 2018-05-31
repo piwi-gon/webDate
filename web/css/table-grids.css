@@ -36,7 +36,8 @@
 .tcell85 { display:table-cell; width: 85%; }
 .tcell90 { display:table-cell; width: 90%; }
 .tcell95 { display:table-cell; width: 95%; }
+.tcell99 { display:table-cell; width: 99%; }
 
-.tcell5, .tcell10, .tcell15, .tcell20, .tcell25, .tcell30, .tcell35, .tcell40, .tcell45, .tcell50,
+.tcell5, .tcell10, .tcell15, .tcell20, .tcell25, .tcell30, .tcell35, .tcell40, .tcell45, .tcell50, .tcell99,
 .tcell55, .tcell60, .tcell65, .tcell70, .tcell75, .tcell80, .tcell85,.tcell90, .tcell95 { border-collapse: collapse; }
 

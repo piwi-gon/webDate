@@ -105,6 +105,7 @@ class cMySQLi {
     }
 
     private function _initDBVars() {
+        if(!file_exists(dirname(__FILE__).DIRECTORY_SEPARATOR."lib".DIRECTORY_SEPARATOR."dbVars.inc.php")) { return; }
         include(dirname(__FILE__).DIRECTORY_SEPARATOR."lib".DIRECTORY_SEPARATOR."dbVars.inc.php");
         $dbKeys    = array_keys($DBHost);
         $numOfKeys = count($dbKeys);
