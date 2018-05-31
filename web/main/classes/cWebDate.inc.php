@@ -114,6 +114,30 @@ class cWebDate {
         $result = $this->_sqlObj->makeQuery($sql);
     }
 
+    public function removeSingleCalendarData($numOfDays="") {
+        if($numOfDays=="") { $numOfDays = $this->getOptionValue('autoremove'); }
+        // @formatter:off
+        $select = "select * from t_schedule ".
+                  "where is_used = 1 ".
+                  "and single_message = 1 ".
+                  "and used_date <= CURDATE() - INTERVAL ".$numOfDays." DAY";
+        // @formatter:on
+        $this->_sqlObj->makeConn("main");
+        $result = $this->_sqlObj->makeQuery($sql);
+        if(count($result)>0) {
+            foreach($result as $row) {
+                // @formatter:off
+                $sql  = "delete from t_schedule " .
+                        "where schedule_id = '" . $row['schedule_id'] . "'";
+                // @formatter:on
+                $this->_sqlObj->makeConn("main");
+                $this->_sqlObj->makeQuery($sql);
+                // and remove relation
+                $this->_deleteRelation($row['schedule_id']);
+            }
+        }
+    }
+
     public function queryRelation() {
         $sql  = "select * from r_schedule_recipient";
         $this->_sqlObj->makeConn("main");
