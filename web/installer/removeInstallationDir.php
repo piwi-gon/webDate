@@ -19,10 +19,10 @@ if(file_exists(dirname(__FILE__).DS."installationOK.txt")) {
         foreach($files as $file) {
             if($file != "." && $file != "..") {
                 echo "removing '" . $file . "'\n";
-                // unlink(dirname(__FILE__).DS.$file);
+                unlink(dirname(__FILE__).DS.$file);
             }
         }
         echo "removing installation dir\n";
-        // unlink(dirname(__FILE__));
+        rmdir(dirname(__FILE__));
     }
 }
